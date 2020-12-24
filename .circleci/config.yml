@@ -12,7 +12,7 @@ jobs:
       - run: make clean
   deploy:
     docker:
-      - image: cibuilds/github:latest
+      - image: cibuilds/github:0.10
     steps:
       - attach_workspace:
           at: ./artifacts
