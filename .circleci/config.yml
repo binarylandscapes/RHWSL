@@ -8,18 +8,23 @@ jobs:
       # export root
       - store_artifacts:
           path: RHWSL.zip
+      - save_cache:
+          key: rhwsl-zip
+          paths:
+            -  RHWSL.zip
       # cleanup
       - run: make clean
   deploy:
     docker:
       - image: cibuilds/github:0.10
     steps:
-      - attach_workspace:
-          at: ./artifacts
+      - restore_cache:
+          keys:
+            - rhwsl-zip
       - run:
           name: "Publish Release on GitHub"
           command: |
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} ./artifacts/
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${CIRCLE_TAG} RHWSL.zip
 workflows:
   version: 2
   untagged-build:
