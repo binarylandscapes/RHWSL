@@ -1,37 +1,50 @@
 # RHWSL (Red hat UBI on WSL)
-Red hat redistributable Standard UBI on WSL (Windows 10 Windows 10 FCU or later)
+Red hat redistributable Standard UBI on WSL (Windows 10 FCU or later)
 based on [wsldl](https://github.com/yuk7/wsldl)
 
-![screenshot](https://raw.githubusercontent.com/yosukes-dev/RHWSL/master/img/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/binarylandscapes/RHWSL/master/img/screenshot.png)
 
-[![CircleCI](https://circleci.com/gh/yosukes-dev/RHWSL.svg?style=svg)](https://circleci.com/gh/yosukes-dev/RHWSL)
-[![Github All Releases](https://img.shields.io/github/downloads/yosukes-dev/RHWSL/total.svg?style=flat-square)](https://github.com/yosukes-dev/RHWSL/releases)
+[![CircleCI](https://circleci.com/gh/binarylandscapes/RHWSL.svg?style=svg)](https://circleci.com/gh/binarylandscapes/RHWSL)
+[![Github All Releases](https://img.shields.io/github/downloads/binarylandscapes/RHWSL/total.svg?style=flat-square)](https://github.com/binarylandscapes/RHWSL/releases)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
-![License](https://img.shields.io/github/license/yosukes-dev/RHWSL.svg?style=flat-square)
+![License](https://img.shields.io/github/license/binarylandscapes/RHWSL.svg?style=flat-square)
 
-### [Download](https://github.com/yosukes-dev/RHWSL/releases)
+## [Download](https://github.com/binarylandscapes/RHWSL/releases)
 
 
 ## Requirements
-* Windows 10 Fall Creators Update x64 or later.
+
+* Windows 10 1903 April 2018 Update x64 or later.
 * Windows Subsystem for Linux feature is enabled.
 
+---
+**IMPORTANT**
+
+Be aware that if installing any WSL instance on Windows 10 1803+, your system automatically is configured with NTFS "Case Sensitive" enabled for any folder created by the WSL instance. This may have issues with Windows usage of files in those folders.
+
+[Per-directory case sensitivity and WSL](https://blogs.msdn.microsoft.com/commandline/2018/02/28/per-directory-case-sensitivity-and-wsl/)
+
+[Improved per-directory case sensitivity support in WSL](https://devblogs.microsoft.com/commandline/improved-per-directory-case-sensitivity-support-in-wsl/)
+
+If you are currently on Windows 10 2004 for the Insiders Program and planning to use WSL 2 and get the following error message "HRESULT:0x800701bc", then you will need to update your WSL Linux Kernel per (https://docs.microsoft.com/en-us/windows/wsl/wsl2-kernel)
+
+---
+
+## References
+
+* [Microsoft WSL Documentation](https://docs.microsoft.com/en-us/windows/wsl/about)
+
 ## Install
-#### 1. [Download](https://github.com/yosukes-dev/RHWSL/releases) installer zip
 
-#### 2. Extract all files in zip file to same directory
+### 1. [Download](https://github.com/binarylandscapes/RHWSL/releases) RHWSL.zip
 
-#### 3.Run RHWSL.exe to Extract rootfs and Register to WSL
+### 2. Extract zip file to a new RHWSL directory containing all files (Recommend C:\TEMP or Downloads folder)
+
+### 3.Run RHWSL.exe to Extract rootfs and Register to WSL
 Exe filename is using to the instance name to register.
 If you rename it you can register with a diffrent name and have multiple installs.
 
-## (Option)
-- If you want to use WSL2, convert it with the following command.
-```dos
-wsl --set-version RHWSL 2
-```
-
-## Subscription Manager
+### Subscription Manager
 - The rootfs included in the release file is the redistributable Standard __"Universal Base Image"__.  
   __However, you can register as usual using subscription-manager and use the RHEL repositories.__
 ```sh
@@ -49,10 +62,13 @@ Product Name: Red Hat Enterprise Linux for x86_64
 Status:       Subscribed
 ```
 
-## How-to-Use(for Installed Instance)
-#### exe Usage
-```dos
-Usage :
+## How-to-Use (for Installed Instance)
+
+### exe Usage (Based off wsldl)
+
+```cmd
+Usage:
+
     <no args>
       - Open a new shell with your default settings.
 
@@ -88,39 +104,89 @@ Usage :
       - Print this usage message.
 ```
 
-#### Just Run exe
-```cmd
->RHWSL.exe
-[root@PC-NAME user]#
-```
-
-#### Run with command line
-```cmd
->RHWSL.exe run uname -r
-4.4.0-43-Microsoft
-```
-
-#### Run with command line with path translation
-```cmd
->RHWSL.exe runp echo C:\Windows\System32\cmd.exe
-/mnt/c/Windows/System32/cmd.exe
-```
-
-#### Change Default User(id command required)
-```cmd
->RHWSL.exe config --default-user user
-
->RHWSL.exe
-[user@PC-NAME dir]$
-```
-
 #### Set "Windows Terminal" as default terminal
+
 ```cmd
->RHWSL.exe config --default-term wt
+<DistributionName>.exe config --default-term wt
 ```
 
-#### How to uninstall instance
-```dos
->RHWSL.exe clean
+### How to uninstall instance
 
+```cmd
+<DistributionName>.exe clean
+
+```
+
+### Helpful tips
+
+* The commands `bash` or `wsl` will open your default distro of WSL as well
+
+* If you forgot your password, `wsl --distribution <DistributionName> --user root` will open the distro as root. So you can use passwd <user> to reset. Then close all terminals and reopen Alpine normally under your user account with new password.
+
+* If you need to virtually "reboot" the WSL distro or distros, as an Administrator open Services and restart the running LxssManager service. 
+
+
+### WSL Command Line Reference
+
+See [Microsoft WSL Reference Documentation](https://docs.microsoft.com/en-us/windows/wsl/reference)
+
+```cmd
+Usage: wsl.exe [Argument] [Options...] [CommandLine]
+```
+
+#### Arguments to run Linux binaries
+
+If no command line is provided, wsl.exe launches the default shell.
+
+`--exec, -e <CommandLine>`: Execute the specified command without using the default Linux shell.
+
+`-- <CommandLine>`: Pass the remaining command line as is.
+
+  Options:
+
+  `--distribution, -d <DistributionName>`: Run the specified distribution.
+
+  `--user, -u <UserName>`: Run as the specified user.
+
+#### Arguments to manage Windows Subsystem for Linux
+
+`--export <DistributionName> <FileName>`: Exports the distribution to a tar file.
+                                          The filename can be - for standard output.
+
+`--import <DistributionName> <InstallLocation> <FileName>`: Imports the specified tar file as a new distribution.
+                                                            The filename can be - for standard input.
+
+`--list, -l [Options]`: Lists distributions.
+
+  Options:
+
+  `--all`: List all distributions, including distributions that are currently
+           being installed or uninstalled.
+
+  `--running`: List only distributions that are currently running.
+
+  `--verbose`: Lists which version of WSL for distributions.
+
+  `--set-default, -s <DistributionName>`: Sets the distribution as the default.
+
+  `--set-default-version <wslVersion>`: Sets the default WSL version for newly created distributions.
+
+  `--set-version <DistributionName> <wslVersion>`: Sets the WSL version for distribution.
+
+  `--terminate, -t <DistributionName>`: Terminates the distribution.
+
+  `--unregister <DistributionName>`: Unregisters the distribution.
+
+  `--upgrade <DistributionName>`: Upgrades the distribution to the WslFs file system format.
+
+  `--help`: Display usage information.
+
+## How-to-Build
+
+CentWSL can build on GNU/Linux or WSL.
+
+`curl`, `bsdtar`, `tar`(gnu) and `sudo` is required for build.
+
+```shell
+$ make
 ```
