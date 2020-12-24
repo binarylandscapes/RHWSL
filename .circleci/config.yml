@@ -1,10 +1,37 @@
 jobs:
- build:
-   machine: true
-   steps:
-     - checkout
-     # build
-     - run: make all
-
-     # cleanup
-     - run: make clean
+  build:
+    machine: true
+    steps:
+      - checkout
+      # build
+      - run: make all
+      # export root
+      - store_artifacts:
+          path: RHWSL.zip
+      # cleanup
+      - run: make clean
+  deploy:
+    docker:
+      - image: circleci/golang:1.8
+    steps:
+      - attach_workspace:
+          at: ./artifacts
+      - run:
+          name: "Publish Release on GitHub"
+          command: |
+            go get github.com/tcnksm/ghr
+            VERSION=$(my-binary --version)
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^\d+\.\d+\.\d+$/
