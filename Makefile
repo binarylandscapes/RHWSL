@@ -49,6 +49,8 @@ base.tar:
 	 chmod 0744 /etc/gshadow; \
 	 dnf install -y \
 	  dnf-plugins-core; \
+	 subscription-manager repos --enable ansible-2-for-rhel-8-x86_64-rpms; \
+     dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm; \
 	"
 	docker export --output=base.tar rhwsl
 	docker rm -f rhwsl
