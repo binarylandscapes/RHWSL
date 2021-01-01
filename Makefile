@@ -4,6 +4,9 @@ LNCR_EXE=RHWSL.exe
 DLR=curl
 DLR_FLAGS=-L
 LNCR_URL=https://github.com/yuk7/wsldl/releases/download/20121600/Launcher.exe
+PLANTUML_URL=http://sourceforge.net/projects/plantuml/files/plantuml.jar/download
+ACROTEX_URL=http://mirrors.ctan.org/macros/latex/contrib/acrotex.zip
+DRAWIO_URL=https://github.com/jgraph/drawio-desktop/releases/download/v14.1.5/draw.io-x86_64-14.1.5.rpm
 
 all: $(OUT_ZIP)
 
@@ -38,12 +41,14 @@ rootfs: base.tar
 base.tar:
 	@echo -e '\e[1;31mExporting base.tar using docker...\e[m'
 	docker run --name rhwsl registry.access.redhat.com/ubi8/ubi:latest /bin/bash -c " \
-	dnf update -y; \
-	dnf clean all; \
-	pwconv; \
-	grpconv; \
-	chmod 0744 /etc/shadow; \
-	chmod 0744 /etc/gshadow; \
+	 dnf update -y; \
+	 dnf clean all; \
+	 pwconv; \
+	 grpconv; \
+	 chmod 0744 /etc/shadow; \
+	 chmod 0744 /etc/gshadow; \
+	 dnf install -y \
+	  dnf-plugins-core; \
 	"
 	docker export --output=base.tar rhwsl
 	docker rm -f rhwsl
