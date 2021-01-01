@@ -4,8 +4,7 @@ based on [wsldl](https://github.com/yuk7/wsldl)
 
 ![screenshot](https://raw.githubusercontent.com/binarylandscapes/RHWSL/master/img/screenshot.png)
 
-[![Build Zip Actions Status](https://github.com/binarylandscapes/RHWSL/workflows/Build zip CI/badge.svg)](https://github.com/binarylandscapes/RHWSL/actions)
-[![Release Zip Actions Status](https://github.com/binarylandscapes/RHWSL/workflows/Release zip CI/badge.svg)](https://github.com/binarylandscapes/RHWSL/actions)
+[![Github Actions Status](https://github.com/binarylandscapes/RHWSL/workflows/release-zip-ci/badge.svg)](https://github.com/binarylandscapes/RHWSL/actions)
 [![Github All Releases](https://img.shields.io/github/downloads/binarylandscapes/RHWSL/total.svg?style=flat-square)](https://github.com/binarylandscapes/RHWSL/releases)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 ![License](https://img.shields.io/github/license/binarylandscapes/RHWSL.svg?style=flat-square)

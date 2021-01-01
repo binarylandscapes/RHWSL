@@ -1,4 +1,4 @@
-name: Build zip CI
+name: build-zip-ci
 
 on: [push]
 

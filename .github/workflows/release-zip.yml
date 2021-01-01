@@ -1,4 +1,4 @@
-name: Release zip CI
+name: release-zip-ci
 
 on:
   push:
