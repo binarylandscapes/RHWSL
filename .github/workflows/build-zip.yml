@@ -17,6 +17,6 @@ jobs:
     - name: Upload artifact files
       uses: ./
       with:
-        name: rhwsl-zip
-        path: RHWSL.zip
+        name: 'rhwsl-zip'
+        path: /RHWSL.zip
         
