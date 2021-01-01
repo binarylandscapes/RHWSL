@@ -14,6 +14,9 @@ jobs:
         sudo apt install make curl zip unzip bsdtar check
     - name: make
       run: make
+    - name: Upload artifact files
+      uses: actions/upload-artifact@v2
       with:
-        name: 'rhwsl-zip'
-        path: /RHWSL.zip        
+        name: 'rhwsl-build-artifacts'
+        path: RHWSL.zip
+        
