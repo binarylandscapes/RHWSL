@@ -41,16 +41,62 @@ rootfs: base.tar
 base.tar:
 	@echo -e '\e[1;31mExporting base.tar using docker...\e[m'
 	docker run --name rhwsl registry.access.redhat.com/ubi8/ubi:latest /bin/bash -c " \
-	 dnf update -y; \
-	 dnf clean all; \
-	 pwconv; \
-	 grpconv; \
-	 chmod 0744 /etc/shadow; \
-	 chmod 0744 /etc/gshadow; \
-	 dnf install -y \
-	  dnf-plugins-core; \
-	 subscription-manager repos --enable ansible-2-for-rhel-8-x86_64-rpms; \
-     dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm; \
+		dnf update -y; \
+		dnf clean all; \
+		pwconv; \
+		grpconv; \
+		chmod 0744 /etc/shadow; \
+		chmod 0744 /etc/gshadow; \
+		dnf install -y \
+			dnf-plugins-core; \
+		subscription-manager repos --enable ansible-2-for-rhel-8-x86_64-rpms; \
+		dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm; \
+		dnf install -y \
+			coreutils-common \
+			bash \
+			bash-completion \
+			sudo \
+			passwd \
+			make \
+			wget \
+			curl \
+			zip \
+			unzip \
+			git-lfs \
+			subversion \
+			genisoimage \
+			neofetch \
+			openssh \
+			nano \
+			ruby \
+			ruby-devel \
+			gcc \
+			ghc-srpm-macros \
+			gmp \
+			libffi \
+			sed \
+			zlib-devel \
+			openssl \
+			icu \
+			krb5-libs \
+			krb5-server \
+			krb5-workstation \
+			zlib \
+			libsecret \
+			gnome-keyring \
+			desktop-file-utils \
+			xprop \
+			xorg-x11-server-Xvfb \
+			texlive-* \
+			graphviz \
+			java-11-openjdk \
+			ghostscript \
+			dejavu-sans-fonts \
+			dejavu-sans-mono-fonts \
+			dejavu-serif-fonts \
+			ansible \
+			podman-docker \
+			libgbm; \
 	"
 	docker export --output=base.tar rhwsl
 	docker rm -f rhwsl
